@@ -5,7 +5,7 @@ const isDev = process.env.NODE_ENV === "development";
 const myAxios = axios.create({
   baseURL: isDev
     ? '"http://localhost:8080/api"'
-    : "https://friend-backend-maste-69513-4-1316993207.sh.run.tcloudbase.com",
+    : "https://192.168.0.162:8080/api",
 });
 
 // 处理  类型“AxiosResponse<any, any>”上不存在属性“errorinfo”。ts(2339) 脑壳疼！关键一步。
