@@ -23,7 +23,7 @@
             <van-icon
               name="edit"
               size="8rem"
-              color="rgba(255,255,255,.4)"
+              color="rgba(255,255,255,.8)"
               style="position: absolute; bottom: 1rem; right: 1rem"
             />
           </van-image>
@@ -47,11 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import {
-  showFailToast,
-  showLoadingToast,
-  closeToast,
-} from "vant";
+import { showFailToast, showLoadingToast, closeToast } from "vant";
 import myAxios from "../plugins/myAxios";
 import { getCurrentUser } from "../services/user";
 import axios from "axios";
@@ -73,17 +69,18 @@ const afterRead = async (file: any) => {
   await axios({
     headers: {
       Accept: "application/json",
-      Authorization: "Bearer 16|5IWTJsIxidDm9zVE1EA4apCNLIJjOlYlYZNv8UKs",
       "Content-Type": "multipart/form-data",
     },
     method: "post",
-    url: "https://wpic.cc/api/v1/upload",
+    url: "https://www.imgurl.org/api/v2/upload",
     data: {
       file: file.file,
+      uid: "53cb5ee1fc1d557cd8cd003a1158b7df",
+      token: "f65f3ff7c49e9e60dd2373be95bceb9c",
     },
   }).then(function (response) {
-    // console.log(response.data.data.links.url);
-    editUser.value.currentValue = response.data.data.links.url;
+    console.log(response.data.data);
+    editUser.value.currentValue = response.data.data.url;
     closeToast();
   });
 };
@@ -106,7 +103,7 @@ const onSubmit = async () => {
 
   if (res.code === 0 && res.data > 0) {
     // showSuccessToast("修改成功");
-    router.push("/userinfo");
+    router.push("/userinfo/update");
   } else {
     showFailToast("修改失败");
     // console.log("修改失败");

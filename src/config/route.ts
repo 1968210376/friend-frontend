@@ -3,12 +3,12 @@ import TeamVue from "../pages/Team.vue";
 import UserUpdate from "../pages/UserUpdate.vue";
 import Search from "../pages/Search.vue";
 import EditUser from "../pages/EditUser.vue";
+import EditTag from "../pages/addTag.vue";
 import SearchResultVue from "../pages/SearchResult.vue";
 import UserLoginPage from "../pages/UserLogin.vue";
 import UserRegisterVue from "../pages/UserRegister.vue";
 import TeamAddPageVue from "../pages/TeamAddPage.vue";
 import TeamUpdatePageVue from "../pages/TeamUpdatePage.vue";
-import UserVue from "../pages/User.vue";
 import UserTeamCreate from "../pages/UserTeamCreate.vue";
 import UserTeamJoin from "../pages/UserTeamJoin.vue";
 
@@ -21,9 +21,9 @@ const routes = [
   { path: "/team/update", title: "编辑队伍", component: TeamUpdatePageVue },
   { path: "/user/login", title: "登录", component: UserLoginPage },
   { path: "/user/register", title: "注册", component: UserRegisterVue },
-  { path: "/userinfo", component: UserVue },
   { path: "/userinfo/update", title: "用户信息", component: UserUpdate },
   { path: "/userinfo/edit", title: "编辑信息", component: EditUser },
+  { path: "/userinfo/edittag", title: "编辑标签", component: EditTag },
   { path: "/userinfo/list", title: "搜索结果", component: SearchResultVue },
   {
     path: "/userinfo/team/create",

@@ -6,9 +6,10 @@
       @search="doSearch"
     />
     <van-floating-bubble
-      axis="lock"
-      v-model:offset="offset"
+      axis="xy"
       icon="add-o"
+      magnetic="x"
+      v-model:offset="offset"
       @click="doJoinTeam"
     />
 
@@ -26,7 +27,8 @@ const router = useRouter();
 const teamList = ref([]);
 const searchText = ref("");
 // const offset = ref({ x: 310, y: 480 });
-const offset = ref({ x: 168, y: 555 });
+const offset = ref({ x: 300, y: 555 });
+
 
 const doJoinTeam = () => {
   router.push({

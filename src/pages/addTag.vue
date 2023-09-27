@@ -23,14 +23,44 @@
     v-model:active-id="activeIds"
     v-model:main-active-index="activeIndex"
     :items="tagList"
-  />
+  >
+    <template v-if="activeIndex === 3" #content>
+      <!-- 可以使用 CellGroup 作为容器 -->
+      <van-cell-group inset>
+        <van-field
+          v-model="value"
+          label="自定义标签"
+          placeholder="请输入标签名"
+          label-align="top"
+          center
+          clearable
+        >
+          <template #button>
+            <van-button size="small" type="primary" @click="addTag"
+              >添加</van-button
+            >
+          </template>
+        </van-field>
+      </van-cell-group>
+    </template>
+  </van-tree-select>
   <div style="padding: 12px">
-    <van-button block type="primary" @click="doSearchResult">搜索</van-button>
+    <van-button block type="primary" @click="onSubmit">保存</van-button>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from "vue";
+import { getCurrentUser } from "../services/user";
+import { showFailToast, showSuccessToast } from "vant";
+import myAxios from "../plugins/myAxios";
+const route = useRoute();
+const editUser = ref({
+  editKey: route.query.editKey,
+  currentValue: route.query.currentValue,
+  editName: route.query.editName,
+});
+// console.log(editUser.value.currentValue);
 
 const searchText = ref("");
 const onSearch = () => {
@@ -56,7 +86,12 @@ const doClose = (tag: any) => {
 
 // 已选中的标签
 const activeIds = ref([]);
+const tags = JSON.parse(editUser.value.currentValue);
+tags.forEach((element) => {
+  activeIds.value.push(element);
+});
 const activeIndex = ref(0);
+const value = ref("");
 const originTagList = [
   {
     text: "性别",
@@ -70,23 +105,60 @@ const originTagList = [
     children: [
       { text: "大一", id: "大一" },
       { text: "大二", id: "大二" },
-      { text: "大3", id: "大3" },
-      { text: "大4", id: "大4" },
-      { text: "大5", id: "大5" },
-      { text: "大6", id: "大6" },
+      { text: "大三", id: "大三" },
+      { text: "大四", id: "大四" },
+      { text: "研一", id: "研一" },
+      { text: "研二", id: "研二" },
     ],
+  },
+  {
+    text: "方向",
+    children: [
+      { text: "前端", id: "前端" },
+      { text: "后端", id: "后端" },
+      { text: "java", id: "java" },
+      { text: "python", id: "python" },
+    ],
+  },
+  {
+    text: "自定义",
+    children: [],
   },
 ];
 let tagList = ref(originTagList);
 
+function addTag() {
+  activeIds.value.push(value.value);
+  value.value = "";
+}
+
 const router = useRouter();
-const doSearchResult = () => {
-  router.push({
-    path: "/userinfo/list",
-    query: {
-      tags: activeIds.value,
-    },
+const onSubmit = async () => {
+  // todo 把 editKey、currentValue、editName 提交到后台
+  editUser.value.currentValue = JSON.stringify(activeIds.value);
+  console.log(editUser.value.currentValue);
+
+  const currentUser = await getCurrentUser();
+
+  if (!currentUser) {
+    showFailToast("用户未登录");
+    return;
+  }
+  // console.log("avatar", editUser.value.currentValue);
+
+  const res = await myAxios.post("/user/update", {
+    id: currentUser.id,
+    [String(editUser.value.editKey)]: editUser.value.currentValue,
   });
+  // console.log(res);
+
+  if (res.code === 0 && res.data > 0) {
+    showSuccessToast("保存成功");
+    router.push("/userinfo/update");
+  } else {
+    showFailToast("保存失败");
+    // console.log("修改失败");
+  }
 };
 </script>
 

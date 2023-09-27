@@ -1,6 +1,6 @@
 <template>
-  <h3 style="text-align: center">登录</h3>
-  <p style="font-size: 5px; padding-left: 30px">
+  <!-- <h3 style="text-align: center">登录</h3> -->
+  <p style="font-size: 1rem; padding-left: 30px">
     没有账号？去<router-link to="/user/register">注册</router-link>
   </p>
 

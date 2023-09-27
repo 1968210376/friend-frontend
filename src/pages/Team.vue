@@ -11,10 +11,11 @@
     </van-tabs>
 
     <van-floating-bubble
-      axis="lock"
-      v-model:offset="offset"
+      axis="xy"
       icon="add-o"
       @click="doAddTeam"
+      magnetic="x"
+      v-model:offset="offset"
     />
 
     <!-- <van-button type="primary" @click="doJoinTeam">加入队伍</van-button> -->
@@ -31,8 +32,8 @@ const router = useRouter();
 const teamList = ref([]);
 const searchText = ref("");
 const active = ref("public");
-// const offset = ref({ x: 310, y: 480 });
-const offset = ref({ x: 168, y: 555 });
+// const offset = ref({ x: 200, y: 400 });
+const offset = ref({ x: 300, y: 555 });
 
 const onTabChange = (name) => {
   if (name === "public") {

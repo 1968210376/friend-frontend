@@ -30,7 +30,7 @@
     <van-tabbar-item icon="friends-o" to="/team" name="team"
       >队伍</van-tabbar-item
     >
-    <van-tabbar-item icon="setting-o" to="/userinfo" name="userinfo"
+    <van-tabbar-item icon="setting-o" to="/userinfo/update" name="userinfo"
       >个人</van-tabbar-item
     >
   </van-tabbar>
@@ -44,7 +44,7 @@ const onClickLeft = () => history.back();
 const onClickRight = () => {
   router.push("/search");
 };
-const route = useRoute();
+// const route = useRoute();
 // const active = ref(0);
 // const onChange = (index: any) => {
 //   // console.log(index);
@@ -52,7 +52,7 @@ const route = useRoute();
 // 监听当前路由
 const DEFAULT_TITLE = "队友匹配系统";
 const title = ref(DEFAULT_TITLE);
-router.beforeEach((to, from) => {
+router.beforeEach((to) => {
   const toPath = to.path;
   const route = routes.find((route) => {
     return toPath == route.path;

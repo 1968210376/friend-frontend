@@ -22,7 +22,7 @@
     <van-cell
       title="性别"
       is-link
-      :value="user.gender == 0 ? '男' : '女'"
+      :value="user.gender == '0' ? '男' : '女'"
       @click="show = true"
     />
     <van-popup
@@ -58,13 +58,17 @@
       :value="user.email"
       @click="toEdit('email', '邮箱', user.email)"
     />
-    <van-cell title="注册时间" :value="user.createTime" />
     <van-cell
       title="标签"
       is-link
-      @click="toEdit('tags', '标签', user.tags)"
+      @click="toEditTag('tags', '标签', user.tags)"
     ></van-cell>
-    
+    <van-cell title="我创建的队伍" is-link to="/userinfo/team/create">
+    </van-cell>
+    <van-cell title="我加入的队伍" is-link to="/userinfo/team/join"> </van-cell>
+
+    <van-cell title="注册时间" :value="user.createTime" />
+    <van-cell title="注销" @click="logout" is-link></van-cell>
   </template>
 </template>
 
@@ -93,6 +97,17 @@ const toEdit = (editKey: string, editName: string, currentValue: string) => {
   });
 };
 
+const toEditTag = (editKey: string, editName: string, currentValue: string) => {
+  router.push({
+    path: "/userinfo/edittag",
+    query: {
+      editKey,
+      editName,
+      currentValue,
+    },
+  });
+};
+
 const updateGender = async (gender: any) => {
   const currentUser = await getCurrentUser();
 
@@ -109,14 +124,23 @@ const updateGender = async (gender: any) => {
   user.value = await getCurrentUser();
   if (res.code === 0 && res.data > 0) {
     // showSuccessToast("修改成功");
-    router.push("/userinfo");
+    router.push("/userinfo/update");
   } else {
     showFailToast("修改失败");
     // console.log("修改失败");
   }
 };
-
-
+// 注销
+const logout = async () => {
+  myAxios.post("/user/logout").then(async function () {
+    const currentUser = await getCurrentUser();
+    if (!currentUser) {
+      showFailToast("用户未登录");
+      router.replace("/user/login");
+      return;
+    }
+  });
+};
 </script>
 
 <style></style>

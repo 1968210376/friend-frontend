@@ -1,6 +1,6 @@
 <template>
-  <h3 style="text-align: center">注册</h3>
-  <p style="font-size: 5px; padding-left: 30px">
+  <!-- <h3 style="text-align: center">注册</h3> -->
+  <p style="font-size: 1rem; padding-left: 30px">
     已有账号？去<router-link to="/user/login">登录</router-link>
   </p>
   <van-form @submit="onSubmit">
